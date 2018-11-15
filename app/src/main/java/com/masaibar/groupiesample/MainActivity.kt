@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.masaibar.groupiesample.databinding.ActivityMainBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
@@ -32,7 +33,17 @@ class MainActivity : AppCompatActivity() {
             val section = Section()
             section.setHeader(LabelItem("label $i"))
             for (j in 0..Random().nextInt(5)) {
-                section.add(ContentItem("content $i $j"))
+                section.add(ContentItem("content $i $j").apply {
+                    onClickContentListener = object : ContentItem.OnClickContentListener {
+                        override fun onClick(text: String) {
+                            Toast.makeText(
+                                this@MainActivity,
+                                text,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                })
             }
             groupAdapter.add(section)
         }
